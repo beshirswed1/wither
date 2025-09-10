@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مناخات العالم</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #e5e7eb;
+            background-image: linear-gradient(to bottom, #f3f4f6, #e5e7eb);
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 1rem;
+        }
+        .card-enter-active {
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .card-enter-to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <header class="bg-blue-600 text-white p-6 shadow-xl">
+        <div class="container flex flex-col md:flex-row justify-between items-center text-center md:text-right">
+            <!-- Header content, including the image and intro paragraph -->
+            <div class="flex-grow">
+                <h1 class="text-4xl font-bold tracking-tight mb-2">الدول وأنواع المناخ</h1>
+                <p class="text-sm md:text-base mb-4 md:mb-0 max-w-2xl mx-auto">
+                    استكشف العلاقة بين أنواع المناخ المختلفة والبلدان التي توجد فيها. هذه الأداة التفاعلية تساعدك على فهم كيف تؤثر الظروف المناخية على الجغرافيا والتوزيع السكاني في جميع أنحاء العالم.
+                </p>
+            </div>
+            
+            <div class="mt-4 md:mt-0 md:mr-8 flex items-center justify-center">
+                <!-- Climate image -->
+                
+            </div>
+
+            <a href="#" class="text-white text-sm opacity-80 hover:opacity-100 transition-opacity mt-2 md:mt-0">من قبل بشير</a>
+        </div>
+        
+        <!-- Palestinian flag and solidarity message -->
+        <div class="absolute top-6 left-6 flex flex-col items-center">
+            <img src="https://flagcdn.com/w160/ps.png" alt="علم فلسطين" class="w-12 h-8 border-2 border-white rounded-md shadow-md mb-1">
+            <span class="text-xs font-semibold text-white">فلسطين حرة</span>
+        </div>
+    </header>
+
+    <main class="container py-8">
+        <div class="flex flex-col items-center mb-10">
+            <label for="climate-select" class="text-lg mb-4 font-semibold text-gray-700">اختر نوع المناخ:</label>
+            <div class="relative w-full max-w-sm">
+                <select id="climate-select" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-10 rounded-xl shadow-inner leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-gray-700">
+                    <svg class="fill-current h-4 w-4 transform rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l-.707.707L13.707 19l4.586-4.586-.707-.707L13 17.586l-3.707-3.636z"/></svg>
+                </div>
+            </div>
+        </div>
+        
+        <div id="countries-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            <!-- Country cards will be populated here -->
+        </div>
+    </main>
+
+    <script>
+        const climateData = {
+            "المناخ الاستوائي (حار ورطب)": [
+                { name: "أنغولا", code: "ao" }, { name: "أنتيغوا وباربودا", code: "ag" }, { name: "الأرجنتين", code: "ar" }, { name: "أستراليا", code: "au" }, { name: "جزر البهاما", code: "bs" }, { name: "بنغلاديش", code: "bd" }, { name: "باربادوس", code: "bb" }, { name: "بليز", code: "bz" }, { name: "بنين", code: "bj" }, { name: "بوليفيا", code: "bo" }, { name: "البرازيل", code: "br" }, { name: "بروناي دار السلام", code: "bn" }, { name: "بوركينا فاسو", code: "bf" }, { name: "بوروندي", code: "bi" }, { name: "الرأس الأخضر", code: "cv" }, { name: "كمبوديا", code: "kh" }, { name: "الكاميرون", code: "cm" }, { name: "جمهورية أفريقيا الوسطى", code: "cf" }, { name: "تشاد", code: "td" }, { name: "تشيلي", code: "cl" }, { name: "الصين", code: "cn" }, { name: "كولومبيا", code: "co" }, { name: "جزر القمر", code: "km" }, { name: "الكونغو (برازافيل)", code: "cg" }, { name: "الكونغو (كينشاسا)", code: "cd" }, { name: "كوستاريكا", code: "cr" }, { name: "ساحل العاج", code: "ci" }, { name: "كوبا", code: "cu" }, { name: "جيبوتي", code: "dj" }, { name: "دومينيكا", code: "dm" }, { name: "جمهورية الدومينيكان", code: "do" }, { name: "الإكوادور", code: "ec" }, { name: "السلفادور", code: "sv" }, { name: "غينيا الاستوائية", code: "gq" }, { name: "إريتريا", code: "er" }, { name: "إثيوبيا", code: "et" }, { name: "فيجي", code: "fj" }, { name: "الغابون", code: "ga" }, { name: "غامبيا", code: "gm" }, { name: "غانا", code: "gh" }, { name: "غرينادا", code: "gd" }, { name: "غواتيمالا", code: "gt" }, { name: "غينيا", code: "gn" }, { name: "غينيا بيساو", code: "gw" }, { name: "غيانا", code: "gy" }, { name: "هايتي", code: "ht" }, { name: "هندوراس", code: "hn" }, { name: "الهند", code: "in" }, { name: "إندونيسيا", code: "id" }, { name: "جامايكا", code: "jm" }, { name: "اليابان", code: "jp" }, { name: "كينيا", code: "ke" }, { name: "كيريباتي", code: "ki" }, { name: "لاوس", code: "la" }, { name: "ليبيريا", code: "lr" }, { name: "مدغشقر", code: "mg" }, { name: "ملاوي", code: "mw" }, { name: "ماليزيا", code: "my" }, { name: "المالديف", code: "mv" }, { name: "مالي", code: "ml" }, { name: "جزر مارشال", code: "mh" }, { name: "موريتانيا", code: "mr" }, { name: "المكسيك", code: "mx" }, { name: "ميكرونيزيا", code: "fm" }, { name: "موزمبيق", code: "mz" }, { name: "ميانمار", code: "mm" }, { name: "ناورو", code: "nr" }, { name: "نيبال", code: "np" }, { name: "نيكاراغوا", code: "ni" }, { name: "النيجر", code: "ne" }, { name: "نيجيريا", code: "ng" }, { name: "باكستان", code: "pk" }, { name: "بالاو", code: "pw" }, { name: "بنما", code: "pa" }, { name: "بابوا غينيا الجديدة", code: "pg" }, { name: "باراغواي", code: "py" }, { name: "بيرو", code: "pe" }, { name: "الفلبين", code: "ph" }, { name: "رواندا", code: "rw" }, { name: "سانت كيتس ونيفيس", code: "kn" }, { name: "سانت لوسيا", code: "lc" }, { name: "سانت فنسنت وغرينادين", code: "vc" }, { name: "ساموا", code: "ws" }, { name: "ساو تومي وبرينسيبي", code: "st" }, { name: "السنغال", code: "sn" }, { name: "سيشل", code: "sc" }, { name: "سيراليون", code: "sl" }, { name: "سنغافورة", code: "sg" }, { name: "جزر سليمان", code: "sb" }, { name: "الصومال", code: "so" }, { name: "جنوب أفريقيا", code: "za" }, { name: "جنوب السودان", code: "ss" }, { name: "سريلانكا", code: "lk" }, { name: "السودان", code: "sd" }, { name: "سورينام", code: "sr" }, { name: "تنزانيا", code: "tz" }, { name: "تايلاند", code: "th" }, { name: "تيمور الشرقية", code: "tl" }, { name: "توجو", code: "tg" }, { name: "تونغا", code: "to" }, { name: "ترينيداد وتوباغو", code: "tt" }, { name: "توفالو", code: "tv" }, { name: "أوغندا", code: "ug" }, { name: "فنزويلا", code: "ve" }, { name: "فيتنام", code: "vn" }, { name: "اليمن", code: "ye" }, { name: "زامبيا", code: "zm" }, { name: "زيمبابوي", code: "zw" }
+            ],
+            "المناخ الجاف (صحراوي)": [
+                { name: "أفغانستان", code: "af" }, { name: "الجزائر", code: "dz" }, { name: "أنغولا", code: "ao" }, { name: "الأرجنتين", code: "ar" }, { name: "أستراليا", code: "au" }, { name: "أذربيجان", code: "az" }, { name: "البحرين", code: "bh" }, { name: "بوتسوانا", code: "bw" }, { name: "تشاد", code: "td" }, { name: "تشيلي", code: "cl" }, { name: "الصين", code: "cn" }, { name: "مصر", code: "eg" }, { name: "إريتريا", code: "er" }, { name: "إثيوبيا", code: "et" }, { name: "إيران", code: "ir" }, { name: "العراق", code: "iq" }, { name: "الأردن", code: "jo" }, { name: "كازاخستان", code: "kz" }, { name: "الكويت", code: "kw" }, { name: "ليبيا", code: "ly" }, { name: "مالي", code: "ml" }, { name: "موريتانيا", code: "mr" }, { name: "المكسيك", code: "mx" }, { name: "منغوليا", code: "mn" }, { name: "المغرب", code: "ma" }, { name: "ناميبيا", code: "na" }, { name: "النيجر", code: "ne" }, { name: "عُمان", code: "om" }, { name: "باكستان", code: "pk" }, { name: "فلسطين", code: "ps" }, { name: "قطر", code: "qa" }, { name: "المملكة العربية السعودية", code: "sa" }, { name: "الصومال", code: "so" }, { name: "جنوب أفريقيا", code: "za" }, { name: "السودان", code: "sd" }, { name: "سوريا", code: "sy" }, { name: "طاجيكستان", code: "tj" }, { name: "تونس", code: "tn" }, { name: "تركمانستان", code: "tm" }, { name: "الإمارات العربية المتحدة", code: "ae" }, { name: "أوزبكستان", code: "uz" }, { name: "الولايات المتحدة", code: "us" }, { name: "اليمن", code: "ye" }
+            ],
+            "المناخ المعتدل (صيف وشتاء واضحين)": [
+                { name: "ألبانيا", code: "al" }, { name: "الجزائر", code: "dz" }, { name: "أندورا", code: "ad" }, { name: "الأرجنتين", code: "ar" }, { name: "أرمينيا", code: "am" }, { name: "أستراليا", code: "au" }, { name: "النمسا", code: "at" }, { name: "أذربيجان", code: "az" }, { name: "بيلاروس", code: "by" }, { name: "بلجيكا", code: "be" }, { name: "بوتان", code: "bt" }, { name: "بوليفيا", code: "bo" }, { name: "البوسنة والهرسك", code: "ba" }, { name: "البرازيل", code: "br" }, { name: "بلغاريا", code: "bg" }, { name: "كندا", code: "ca" }, { name: "تشيلي", code: "cl" }, { name: "الصين", code: "cn" }, { name: "كولومبيا", code: "co" }, { name: "كرواتيا", code: "hr" }, { name: "كوبا", code: "cu" }, { name: "قبرص", code: "cy" }, { name: "التشيك", code: "cz" }, { name: "الدنمارك", code: "dk" }, { name: "إستونيا", code: "ee" }, { name: "فرنسا", code: "fr" }, { name: "جورجيا", code: "ge" }, { name: "ألمانيا", code: "de" }, { name: "اليونان", code: "gr" }, { name: "المجر", code: "hu" }, { name: "الهند", code: "in" }, { name: "أيسلندا", code: "is" }, { name: "إيران", code: "ir" }, { name: "العراق", code: "iq" }, { name: "أيرلندا", code: "ie" }, { name: "إيطاليا", code: "it" }, { name: "اليابان", code: "jp" }, { name: "الأردن", code: "jo" }, { name: "كازاخستان", code: "kz" }, { name: "كوريا الشمالية", code: "kp" }, { name: "كوريا الجنوبية", code: "kr" }, { name: "قيرغيزستان", code: "kg" }, { name: "لاتفيا", code: "lv" }, { name: "لبنان", code: "lb" }, { name: "ليسوتو", code: "ls" }, { name: "ليختنشتاين", code: "li" }, { name: "ليتوانيا", code: "lt" }, { name: "لوكسمبورغ", code: "lu" }, { name: "مالطا", code: "mt" }, { name: "موريشيوس", code: "mu" }, { name: "المكسيك", code: "mx" }, { name: "مولدوفا", code: "md" }, { name: "موناكو", code: "mc" }, { name: "الجبل الأسود", code: "me" }, { name: "نيبال", code: "np" }, { name: "هولندا", code: "nl" }, { name: "نيوزيلندا", code: "nz" }, { name: "مقدونيا الشمالية", code: "mk" }, { name: "النرويج", code: "no" }, { name: "باكستان", code: "pk" }, { name: "فلسطين", code: "ps" }, { name: "باراغواي", code: "py" }, { name: "بيرو", code: "pe" }, { name: "الفلبين", code: "ph" }, { name: "بولندا", code: "pl" }, { name: "البرتغال", code: "pt" }, { name: "رومانيا", code: "ro" }, { name: "روسيا", code: "ru" }, { name: "سان مارينو", code: "sm" }, { name: "صربيا", code: "rs" }, { name: "سلوفاكيا", code: "sk" }, { name: "سلوفينيا", code: "si" }, { name: "جنوب أفريقيا", code: "za" }, { name: "إسبانيا", code: "es" }, { name: "السويد", code: "se" }, { name: "سويسرا", code: "ch" }, { name: "سوريا", code: "sy" }, { name: "طاجيكستان", code: "tj" }, { name: "تنزانيا", code: "tz" }, { name: "تركيا", code: "tr" }, { name: "أوكرانيا", code: "ua" }, { name: "المملكة المتحدة", code: "gb" }, { name: "الولايات المتحدة", code: "us" }, { name: "أوروغواي", code: "uy" }, { name: "أوزبكستان", code: "uz" }, { name: "فنزويلا", code: "ve" }
+            ],
+            "المناخ القاري (فروقات كبيرة بالحرارة)": [
+                { name: "أفغانستان", code: "af" }, { name: "ألبانيا", code: "al" }, { name: "بيلاروس", code: "by" }, { name: "بوتان", code: "bt" }, { name: "البوسنة والهرسك", code: "ba" }, { name: "بلغاريا", code: "bg" }, { name: "كندا", code: "ca" }, { name: "الصين", code: "cn" }, { name: "التشيك", code: "cz" }, { name: "إستونيا", code: "ee" }, { name: "فنلندا", code: "fi" }, { name: "فرنسا", code: "fr" }, { name: "جورجيا", code: "ge" }, { name: "ألمانيا", code: "de" }, { name: "المجر", code: "hu" }, { name: "إيران", code: "ir" }, { name: "قيرغيزستان", code: "kg" }, { name: "لاتفيا", code: "lv" }, { name: "ليتوانيا", code: "lt" }, { name: "مولدوفا", code: "md" }, { name: "منغوليا", code: "mn" }, { name: "نيبال", code: "np" }, { name: "كوريا الشمالية", code: "kp" }, { name: "بولندا", code: "pl" }, { name: "رومانيا", code: "ro" }, { name: "روسيا", code: "ru" }, { name: "سلوفاكيا", code: "sk" }, { name: "سلوفينيا", code: "si" }, { name: "السويد", code: "se" }, { name: "طاجيكستان", code: "tj" }, { name: "تركيا", code: "tr" }, { name: "تركمانستان", code: "tm" }, { name: "أوكرانيا", code: "ua" }, { name: "الولايات المتحدة", code: "us" }, { name: "أوزبكستان", code: "uz" }
+            ],
+            "المناخ القطبي (بارد جداً)": [
+                { name: "الأرجنتين", code: "ar" }, { name: "كندا", code: "ca" }, { name: "تشيلي", code: "cl" }, { name: "الصين", code: "cn" }, { name: "الدنمارك", code: "dk" }, { name: "فنلندا", code: "fi" }, { name: "آيسلندا", code: "is" }, { name: "كازاخستان", code: "kz" }, { name: "قيرغيزستان", code: "kg" }, { name: "منغوليا", code: "mn" }, { name: "نيبال", code: "np" }, { name: "النرويج", code: "no" }, { name: "روسيا", code: "ru" }, { name: "السويد", code: "se" }, { name: "الولايات المتحدة", code: "us" }
+            ]
+        };
+
+        const climateSelect = document.getElementById('climate-select');
+        const countriesGrid = document.getElementById('countries-grid');
+
+        // Function to populate the dropdown menu
+        function populateDropdown() {
+            for (const climate in climateData) {
+                const option = document.createElement('option');
+                option.value = climate;
+                option.textContent = climate;
+                climateSelect.appendChild(option);
+            }
+        }
+
+        // Function to display countries for a selected climate
+        function displayCountries(climateType) {
+            countriesGrid.innerHTML = ''; // Clear previous cards
+            const countries = climateData[climateType];
+            
+            // Sort countries alphabetically by name
+            const sortedCountries = countries.sort((a, b) => a.name.localeCompare(b.name, 'ar', { sensitivity: 'base' }));
+
+            sortedCountries.forEach((country, index) => {
+                const card = document.createElement('div');
+                card.className = 'group flex flex-col items-center bg-white rounded-xl shadow-md p-4 cursor-pointer hover:shadow-xl hover:ring-2 hover:ring-blue-500 transition-all duration-300 transform hover:-translate-y-1 card-enter-active';
+                
+                card.innerHTML = `
+                    <div class="relative w-20 h-16 rounded-lg overflow-hidden mb-3 group-hover:scale-110 transition-transform duration-300">
+                        <img src="https://flagcdn.com/w160/${country.code}.png" 
+                            alt="علم ${country.name}" 
+                            class="absolute inset-0 w-full h-full object-cover border border-gray-200 rounded-lg">
+                    </div>
+                    <span class="text-sm font-semibold text-center mt-auto text-gray-700">${country.name}</span>
+                `;
+                countriesGrid.appendChild(card);
+                
+                // Add a small delay for staggered animation
+                setTimeout(() => {
+                    card.classList.add('card-enter-to');
+                }, index * 50);
+            });
+        }
+
+        // Event listener for dropdown change
+        climateSelect.addEventListener('change', (e) => {
+            displayCountries(e.target.value);
+        });
+
+        // Initialize the app on page load
+        window.onload = function() {
+            populateDropdown();
+            // Display the first climate's countries by default
+            const firstClimate = Object.keys(climateData)[0];
+            climateSelect.value = firstClimate;
+            displayCountries(firstClimate);
+        };
+    </script>
+    <footer class="bg-gray-100 text-gray-600 py-6">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">© 2023 جميع الحقوق محفوظة.</p>
+            <p class="text-sm">تم تطوير هذا الموقع باستخدام <a href="https://tailwindcss.com/" class="text-blue-500 hover:underline">Tailwind CSS</a>.</p>
+            <p class="text-sm">مصدر البيانات: <a href="https://www.worlddata.info/climate/" class="text-blue-500 hover:underline">WorldData.info</a></p>
+            <p class="text-sm mt-2">تم تطوير الموقع من قبل <a href="https://github.com/beshirswed1" class="text-blue-500 hover:underline">بشير</a></p>
+            <p class="text-sm">بشير@2023</p>
+        </div>
+    </footer>
+</body>
+</html>
